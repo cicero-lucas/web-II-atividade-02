@@ -1,0 +1,17 @@
+{
+  "name": "atividade02-weblln1",
+  "version": "1.0.0",
+  "description": "Atividade 02 webII ",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [],
+  "author": "Cicero Lucas, Dayanne e Rose",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.4"
+  }
+}
