@@ -2,7 +2,7 @@ const express = require("express");
 const { teste } = require("../controllers/controller");
 const { cadastroPlaca } = require("../controllers/cadastroPlaca");
 const upload = require("../middleware/uploadMiddleware");
-const { gerarRelatorio } = require("../controllers/retarotioCidade");
+const { gerarRelatorio } = require("../controllers/relatorioCidade");
 const rotas = express.Router();
 
 rotas.get('/',teste);

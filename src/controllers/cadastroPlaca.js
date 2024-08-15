@@ -4,7 +4,9 @@ const fs = require("fs");
 
 const cadastroPlaca = async (req, res) => {
   try {
+    
     const {cidade} = req.body;
+
 
     // Verifique se o arquivo foi enviado
     if (!req.file) {
@@ -15,7 +17,7 @@ const cadastroPlaca = async (req, res) => {
     }
 
     const filePath = req.file.path;
-    
+
 
     if (!fs.existsSync(filePath)) {
       throw new Error(`O arquivo no caminho ${filePath} não existe.`);
@@ -23,11 +25,9 @@ const cadastroPlaca = async (req, res) => {
 
     // Realize a leitura OCR da placa
     const placaOCR = await getOCR(filePath);
-    console.log(cidade)
-    console.log(placaOCR)
     // Crie um novo documento no banco de dados com os dados da placa e o caminho da imagem
     const novaPlaca = new CadastroPlaca({
-      nomeCidade: "crato-ce",
+      nomeCidade: cidade,
       placa: placaOCR,
       caminhoImagem: filePath,
     });

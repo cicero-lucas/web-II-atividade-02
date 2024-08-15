@@ -20,10 +20,12 @@ async function gerarRelatorio(req, res) {
 
     // Criação do documento PDF
     const doc = new PDFDocument();
+    const nome = `relatorio${Date.now()}.pdf`;
 
     // Configuração de cabeçalho para download do PDF
-    res.setHeader('Content-Disposition', 'attachment; filename="relatorio.pdf"');
+    res.setHeader('Content-Disposition', `attachment; filename="${nome}"`);
     res.setHeader('Content-Type', 'application/pdf');
+
 
     // Enviar o PDF como resposta
     doc.pipe(res);
