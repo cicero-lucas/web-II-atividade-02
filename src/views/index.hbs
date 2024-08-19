@@ -1,5 +1,6 @@
-
+<div id="alert-container" class="hidden"></div> 
 <div class="main">
+
     <h1>Cadastro de Placa</h1>
     <form id="placaForm" action="/cadastroPlaca" method="post" enctype="multipart/form-data">
         <label for="cidade">Cidade:</label>
@@ -11,8 +12,8 @@
         <button type="submit">Cadastrar Placa</button>
     </form>
 
-     <div id="results" class="results-container hidden">
-    </div>
+
+    <div id="results" class="results-container hidden"></div>
 
     <hr>
 
@@ -23,15 +24,12 @@
         <button type="submit">Consultar</button>
     </form>
 
-    <h2>Relatorio por cidade</h2>
+    <h2>Relatório por cidade</h2>
     <form id="consultaForm2" method="get">
-        <label for="consulta">Placa para Consulta:</label>
-        <input type="text" id="consulta2" name="placa" value="crato-ce" required>
+        <label for="consulta2">Cidade para Consulta:</label>
+        <input type="text" id="consulta2" name="cidade" value="crato-ce" required>
         <button type="submit">Consultar</button>
     </form>
 
     <hr>
-
-   
 </div>
-

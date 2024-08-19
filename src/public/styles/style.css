@@ -101,6 +101,33 @@ hr {
     display: none;
 }
 
+/* Estilo para os alertas */
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.alert-success {
+    background-color: #dff0d8;
+    color: #3c763d;
+    border-left: 6px solid #3c763d;
+}
+
+.alert-info {
+    background-color: #d9edf7;
+    color: #31708f;
+    border-left: 6px solid #31708f;
+}
+
+.alert-error {
+    background-color: #f2dede;
+    color: #a94442;
+    border-left: 6px solid #a94442;
+}
+
+
+
 
 /* Estilos responsivos */
 @media (max-width: 768px) {
