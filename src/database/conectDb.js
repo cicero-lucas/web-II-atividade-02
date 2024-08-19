@@ -18,7 +18,7 @@ try{
     }
       
 }catch{
-    console.log("erro: ante da conexão do banco de dados")
+    console.log("erro: antes da conexão do banco de dados")
 }
 
 module.exports={
