@@ -15,13 +15,13 @@ Atividade 02 web II
 
 <p align="center">
  <a href="#about">Sobre</a> • • 
-  <a href="#fucionalidade">Funcionalidade</a> • • 
- <a href="#inicio">Começando</a> • • 
- <a href="#usar">Como Usar</a> • • 
- <a href="#dificudade"> Dificuldades Conhecidas </a> 
+ <a href="#fucionalidade">Funcionalidade</a> • • 
+ <a href="#tecnologias">Tecnologias Utilizadas</a> • • 
+ <a href="#usar">Deploy</a> • • 
+ <a href="#aprendizado">Lições Aprendidas</a> 
 </p>
 
-<h2 id="about">📌 Sobre</h2>
+<h2 id="about">📌 Sobre </h2>
 
 <p>
 Este projeto é uma API desenvolvida em Node.js e Express, com o objetivo de reconhecer e armazenar informações de placas de veículos utilizando OCR (Reconhecimento Óptico de Caracteres). A API permite o cadastro de placas a partir de imagens enviadas pelos usuários e mantém registros com informações como a cidade, data e hora do registro em um banco de dados MongoDB. Além disso, a API é capaz de gerar relatórios em PDF com os registros das placas de uma cidade específica.
@@ -35,17 +35,7 @@ Este projeto é uma API desenvolvida em Node.js e Express, com o objetivo de rec
   <li>Consulta de Placas: Rota GET /consulta/:placa que verifica se uma determinada placa está cadastrada no banco de dados.</li>
 </ul>
 
-<ul>
-<!--   <li> Cadastro de novos registros usando Local Storage.</li>
-  <li> Edição de registros existentes </li>
-  <li> Exclusão de registros </li>
-  <li> Listagem de todos os registros cadastrados </li>
-  <li> Download dos registros cadastrados </li> -->
-</ul>
-
-***
-
-<h2 id="inicio">🚀 Tecnologias Utilizadas</h2>
+<h2 id="tecnologias">🚀 Tecnologias Utilizadas </h2>
 
 <h3>Pré-requisitos</h3>
 
@@ -102,7 +92,18 @@ npm run dev
 
 <p>Este projeto está hospedado no Vercel.</p>
 <hr>
-<!--<h2 id="dificudade"> :heavy_exclamation_mark: Dificuldades Conhecidas </h2>-->
+
+<h2 id="aprendizado"> :heavy_exclamation_mark: Lições Aprendidas </h2>
+<p>Durante o desenvolvimento deste projeto, diversas lições importantes foram aprendidas:</p>
+
+<ul>
+  <li>Integração de OCR com APIs: Aprendemos como integrar a funcionalidade de OCR (Reconhecimento Óptico de Caracteres) em uma aplicação Node.js, utilizando a biblioteca Tesseract.js para extrair textos de imagens de placas e processá-los de maneira eficiente.</li>
+  <li>Geração de PDFs em Aplicações Web: Foi interessante explorar a geração de arquivos PDF dinâmicos a partir de dados armazenados no banco de dados, utilizando a biblioteca PDFKit. Isso nos ajudou a entender melhor como manipular documentos dentro de uma aplicação web.</li>
+  <li>Trabalhar com MongoDB: Ganhamos experiência na modelagem de dados e na interação com um banco de dados NoSQL, utilizando MongoDB. Aprendemos como fazer consultas, inserir e gerenciar registros, além de configurar variáveis de ambiente para facilitar o desenvolvimento.</li>
+  <li>Desenvolvimento de APIs RESTful: Este projeto reforçou nossos conhecimentos em desenvolvimento de APIs RESTful com Node.js e Express, incluindo boas práticas de estruturação de rotas, middleware, e manipulação de dados.</li>
+  <li>Deploy em Vercel: A experiência de hospedar o projeto no Vercel foi valiosa, proporcionando uma visão prática sobre o fluxo de deploy contínuo e como gerenciar um ambiente de produção para aplicações Node.js.</li>
+</ul>
+
 <hr>
 
 🤝 Colaboradores
