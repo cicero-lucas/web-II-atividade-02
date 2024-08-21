@@ -1,5 +1,6 @@
 const CadastroPlaca = require("../models/cadastroPlacaModels");
 const { getOCR } = require("../api/ocr");
+const fs = require("fs");
 
 const cadastroPlaca = async (req, res) => {
   try {
@@ -13,22 +14,26 @@ const cadastroPlaca = async (req, res) => {
       });
     }
 
-    if (!cidade) {
+    if(!cidade){
       return res.status(400).json({
         success: false,
-        message: "Nome da cidade é obrigatório.",
+        message: "nome da cidade obrigatorio",
       });
     }
 
-    // Obtenha o nome original do arquivo
-    const fileName = req.file.originalname;
+    const filePath = req.file.path;
 
-    // Realize a leitura OCR da placa (Se necessário)
-    const placaOCR = await getOCR(req.file.buffer);
+    if (!fs.existsSync(filePath)) {
+      throw new Error('O arquivo no caminho ${filePath} não existe.');
+    }
+
+    // Realize a leitura OCR da placa
+    const placaOCR = await getOCR(filePath);
 
     // Verifique se a placa já está cadastrada
     const placaExistente = await CadastroPlaca.findOne({ placa: placaOCR, nomeCidade: cidade });
 
+    console.log(placaExistente)
     if (placaExistente) {
       return res.status(409).json({
         success: false,
@@ -36,12 +41,10 @@ const cadastroPlaca = async (req, res) => {
       });
     }
 
-    // Crie um novo registro de placa
     const novaPlaca = new CadastroPlaca({
       nomeCidade: cidade,
       placa: placaOCR,
-      // Apenas o nome do arquivo sem armazenamento
-      caminhoImagem: fileName, 
+      caminhoImagem: filePath,
     });
 
     await novaPlaca.save();
