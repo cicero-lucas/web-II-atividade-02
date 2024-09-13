@@ -4,11 +4,26 @@ const path = require("path");
 const rotas = require("./routes/route");
 const { conexaoDb } = require("./database/conectDb");
 const exphbs = require('express-handlebars');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const flash = require('connect-flash');
 const app = express();
 
 // Middleware para permitir o parsing de JSON e dados de formulários
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
+
+const secret=process.env.SECRET2
+
+app.use(session({
+    secret:secret,
+    resave: false,
+    saveUninitialized: true,
+  }));
+
+  app.use(flash());
+
+app.use(cookieParser());
 
 // Configuração do CORS
 app.use(cors({
