@@ -2,13 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const rotas = require("./routes/route");
-const { conexaoDb } = require("./database/conectDb");
 const exphbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 const app = express();
-
+require("dotenv").config();
 // Middleware para permitir o parsing de JSON e dados de formulários
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
@@ -46,11 +45,4 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 // Rotas
 app.use('/', rotas);
 
-// Conectar ao banco de dados
-conexaoDb();
-
-// Iniciar o servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server rodando na porta: ${PORT}`);
-});
+module.exports = app;
