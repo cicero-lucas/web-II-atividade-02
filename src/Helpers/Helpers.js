@@ -3,29 +3,28 @@ const cookieParser = require('cookie-parser');
 
 senha=process.env.SECRET
 
-// Middleware para verificar o ID do usuário no cookie
+// Middleware para verificar o ID do usuário no cookie ou no cabeçalho
 const verIdUser = (req, res, next) => {
-    // Obtém o token de autorização do cookie
-    const token = req.cookies.tokenAutorization;
+    // Obtém o token de autorização do cookie ou do cabeçalho
+    const token = req.cookies.tokenAutorization || req.header('x-auth-token');
 
-    // Se o token estiver presente
-    if (token) {
-        try {
-            
-            const decoded = jwt.verify(token, senha);
+    if (!token) {
+        // Se não houver token, retorna um erro de não autorizado
+        return res.status(401).json({ message: 'Token não fornecido' });
+    }
 
-          
-            req.userId = decoded.id;
+    try {
+        // Verifica o token usando a senha secreta
+        const decoded = jwt.verify(token, senha);
 
-            
-            next();
-        } catch (error) {
-            console.error('Erro ao verificar o token:', error.message);
-            res.status(401).json({ message: 'Token inválido' });
-        }
-    } else {
-        // Se não houver token presente no cookie, retorna um erro de não autorizado
-        res.status(401).json({ message: 'Token não fornecido' });
+        // Associa o ID do usuário à requisição
+        req.userId = decoded.id;
+        next(); // Continua para a próxima função (rota)
+        
+    } catch (error) {
+        // Se houver erro na verificação, retorna um erro de token inválido
+        console.error('Erro ao verificar o token:', error.message);
+        res.status(401).json({ message: 'Token inválido' });
     }
 };
 
