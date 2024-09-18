@@ -4,27 +4,32 @@
   "description": "Atividade 02 webII ",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/server.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "Cicero Lucas, Dayanne e Rose",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
+    "connect-flash": "^0.1.1",
+    "cookie": "^0.6.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-handlebars": "^8.0.1",
+    "express-session": "^1.18.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.2",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.4",
     "pdfkit": "^0.15.0",
-    "tesseract.js": "^5.1.0",
-    "bcrypt": "^5.1.1",
-    "connect-flash": "^0.1.1",
-    "cookie": "^0.6.0",
-    "cookie-parser": "^1.4.6",
-    "express-session": "^1.18.0",
-    "jsonwebtoken": "^9.0.2"
+    "tesseract.js": "^5.1.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
   }
 }
