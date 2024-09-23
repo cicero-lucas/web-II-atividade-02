@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-const verCookie = require("../Helpers/Helpers");
+
 
 const cadastraUsuario = async (req,res)=>{
     try{
@@ -51,46 +51,49 @@ const cadastraUsuario = async (req,res)=>{
 
    
 }
-
-const paginaLogin = async (req,res)=>{
+const paginaLogin = async (req, res) => {
     try {
-        const {email,senha}=req.body;
+        const { email, senha } = req.body;
 
-        if(!email){
-            return res.status(422).json({msg:"email é obrigatório!"});
-        }else if(!senha){
-            return res.status(422).json({msg:"senha é obrigatório!"});
+        if (!email) {
+            return res.status(422).json({ msg: "Email é obrigatório!" });
+        } else if (!senha) {
+            return res.status(422).json({ msg: "Senha é obrigatória!" });
         }
 
-        const user = await User.findOne({email:email})
-        if(!user){
-            return res.status(404).json({msg:'usuário não cadastrado, faça o cadastro!',opc:3});
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            return res.status(404).json({ msg: 'Usuário não cadastrado, faça o cadastro!', opc: 3 });
         }
 
-        const checksenha = await bcrypt.compare(senha,user.senha)
+        const checksenha = await bcrypt.compare(senha, user.senha);
 
-        if(!checksenha){
-            return res.status(422).json({msg:"senha inválida !", opc:2});
+        if (!checksenha) {
+            return res.status(422).json({ msg: "Senha inválida!", opc: 2 });
         }
 
         try {
-            const secret = process.env.SECRET
-            const token = jwt.sign({
-                iduser:user._id
-            },secret,)
-            res.status(200).json(
-                {token, opc:1,msg:"bem vindo!"}
-            );
+            const secret = process.env.SECRET;
+            const token = jwt.sign({ id: user._id }, secret);
+            res.status(200).json({ token, opc: 1, msg: "Bem-vindo!" });
 
-        } catch {
-            console.log('erro no login')
+        } catch (error) {
+            console.log('Erro no login:', error.message);
+            res.status(500).json({ msg: "Erro no login" });
         }
-        
-    } catch {
-        console.log("erro ao fazer login")
+
+    } catch (error) {
+        console.log("Erro ao fazer login:", error.message);
+        res.status(500).json({ msg: "Erro ao fazer login" });
     }
-}
+};
+
+module.exports = {
+    cadastraUsuario,
+    paginaLogin
+};
 
 module.exports={
-    cadastraUsuario,paginaLogin
+    cadastraUsuario
+    ,paginaLogin
 }

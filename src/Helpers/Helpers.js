@@ -1,11 +1,13 @@
+require("dotenv").config()
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 
-senha=process.env.SECRET
+const senha = process.env.SECRET;
 
 // Middleware para verificar o ID do usuário no cookie ou no cabeçalho
 const verIdUser = (req, res, next) => {
     // Obtém o token de autorização do cookie ou do cabeçalho
+
     const token = req.cookies.tokenAutorization || req.header('x-auth-token');
 
     if (!token) {
@@ -31,5 +33,3 @@ const verIdUser = (req, res, next) => {
 module.exports = {
     verIdUser
 };
-
-
