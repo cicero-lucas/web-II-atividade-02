@@ -41,6 +41,7 @@ app.set('views', path.join(__dirname, 'views')); // Define o diretório para vie
 
 // Middleware para arquivos estáticos
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, 'public')));
 
 // Rotas
 app.use('/', rotas);
