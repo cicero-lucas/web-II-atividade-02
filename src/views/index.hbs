@@ -1,35 +1,86 @@
-<div id="alert-container" class="hidden"></div> 
-<div class="main">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Placa</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+     <div id="alert-container" class="hidden"></div> 
+    <nav>
+        <ul>
+            <li><a href="#login">Login</a></li>
+            <li><a href="#cadastro">Cadastro</a></li>
+        </ul>
+    </nav>
 
-    <h1>Cadastro de Placa</h1>
-    <form id="placaForm" action="/cadastroPlaca" method="post" enctype="multipart/form-data">
-        <label for="cidade">Cidade:</label>
-        <input type="text" id="cidade" name="cidade" value="{{cidade}}" required>
+    <div class="main">
 
-        <label for="placa">Placa:</label>
-        <input type="file" id="placa" name="placa" required>
+        
+        <h1>Cadastro de Placa</h1>
+        <form id="placaForm" action="/cadastroPlaca" method="post" enctype="multipart/form-data">
+            <label for="cidade">Cidade:</label>
+            <input type="text" id="cidade" name="cidade" value="{{cidade}}" required>
 
-        <button type="submit">Cadastrar Placa</button>
-    </form>
+            <label for="placa">Placa:</label>
+            <input type="file" id="placa" name="placa" required>
 
+            <button type="submit">Cadastrar Placa</button>
+        </form>
 
-    <div id="results" class="results-container hidden"></div>
+        <div id="results" class="results-container hidden"></div>
 
-    <hr>
+        <hr>
 
-    <h2>Consultar Placa</h2>
-    <form id="consultaForm" method="get">
-        <label for="consulta">Placa para Consulta:</label>
-        <input type="text" id="consulta" name="placa" value="{{placa}}" required>
-        <button type="submit">Consultar</button>
-    </form>
+        <h2>Consultar Placa</h2>
+        <form id="consultaForm" method="get">
+            <div id="res"></div>
+            <label for="consulta">Placa para Consulta:</label>
+            <input type="text" id="consulta" name="placa" value="{{placa}}" required>
+            <button type="submit">Consultar</button>
+        </form>
 
-    <h2>Relatório por cidade</h2>
-    <form id="consultaForm2" method="get">
-        <label for="consulta2">Cidade para Consulta:</label>
-        <input type="text" id="consulta2" name="cidade" value="crato-ce" required>
-        <button type="submit">Consultar</button>
-    </form>
+        <h2>Relatório por cidade</h2>
+        <form id="consultaForm2" method="get">
+            <label for="consulta2">Cidade para Consulta:</label>
+            <input type="text" id="consulta2" name="cidade" value="crato-ce" required>
+            <button type="submit">Consultar</button>
+        </form>
 
-    <hr>
-</div>
+        <hr>
+    </div>
+
+    <div id="login" class="form-container">
+        <h2>Login</h2>
+        <form id="loginForm" action="/login" method="post">
+            <label for="email">Email:</label>
+            <input type="email" id="email1" name="email" required>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha1" name="senha" required>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <div id="cadastro" class="form-container">
+        <h2>Cadastro</h2>
+        <form id="cadastroForm" action="/cadastro" method="post">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome2" name="nome" required>
+
+            <label for="emailCadastro">Email:</label>
+            <input type="email" id="email2" name="email" required>
+
+            <label for="senhaCadastro">Senha:</label>
+            <input type="password" id="senha2" name="senha" required>
+
+            <label for="confirmarSenha">Confirmar Senha:</label>
+            <input type="password" id="confirmar1" name="confirmarSenha" required>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+</body>
+</html>

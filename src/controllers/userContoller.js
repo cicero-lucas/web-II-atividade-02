@@ -1,99 +1,96 @@
-const User = require("../models/User");
+require("dotenv").config();
+const express = require("express");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
+const cookieParser = require("cookie-parser");
+const User = require("../models/User");
 
+const app = express();
+app.use(express.json());
+app.use(cookieParser());
 
-const cadastraUsuario = async (req,res)=>{
-    try{
-        const {nome,perfil="",email,senha,confirmsenha}=req.body;
-    
-        if(!nome){
-            return res.status(422).json({msg:'o nome é obrigatório!'});
-        }else if(!email){
-            return res.status(422).json({msg:'o email é obrigatório!'});
-        
-        }else if(!senha){
-            return res.status(422).json({msg:'a senha é obrigatório!'})
-        
-        }else if(!confirmsenha){
-            return res.status(422).json({msg:'a confirmação de senha é obrigatório!'})
-        
-        }else if(senha !== confirmsenha){
-            return res.status(422).json({msg:'confirme a senha corretamete!', opc:2});
-        }
-        const userExiste = await User.findOne({email:email})
+const SECRET = process.env.SECRET || "secrettoken"; // Defina o token no .env
 
-        if(userExiste){
-            return res.status(422).json({msg:'usuário já cadastrado', opc:3});
-        }
+// Cadastro de usuário
+const cadastraUsuario = async (req, res) => {
+    const { nome, perfil = "", email, senha, confirmsenha } = req.body;
 
-        const salt = await bcrypt.genSalt(12);
-        const passorwodHash = await bcrypt.hash (senha,salt)
-
-        // criarUsario
-
-        const user = new User({
-            name:nome,
-            perfil:(perfil)?perfil:nome,
-            email,
-            senha:passorwodHash,
-        })
-
-        try{
-            await user.save();
-            return res.status(200).json({msg:"Login realizado com sucesso!", opc:1})
-        }catch{
-            return res.status(500).json({ msg:"erro ao cadastra-se na plataforma", opc:2})
-        }
-    }catch{
-        console.log("erro ao cadastrar usuário!");
+    if (!nome || !email || !senha || !confirmsenha) {
+        return res.status(422).json({ msg: 'Todos os campos são obrigatórios!' });
+    }
+    if (senha !== confirmsenha) {
+        return res.status(422).json({ msg: 'As senhas não coincidem!' });
     }
 
-   
-}
-const paginaLogin = async (req, res) => {
+    const userExiste = await User.findOne({ email });
+    if (userExiste) {
+        return res.status(422).json({ msg: 'Usuário já cadastrado' });
+    }
+
+    const salt = await bcrypt.genSalt(12);
+    const passwordHash = await bcrypt.hash(senha, salt);
+
+    const user = new User({
+        nome,
+        perfil: perfil || nome,
+        email,
+        senha: passwordHash,
+    });
+
     try {
-        const { email, senha } = req.body;
-
-        if (!email) {
-            return res.status(422).json({ msg: "Email é obrigatório!" });
-        } else if (!senha) {
-            return res.status(422).json({ msg: "Senha é obrigatória!" });
-        }
-
-        const user = await User.findOne({ email: email });
-        if (!user) {
-            return res.status(404).json({ msg: 'Usuário não cadastrado, faça o cadastro!', opc: 3 });
-        }
-
-        const checksenha = await bcrypt.compare(senha, user.senha);
-
-        if (!checksenha) {
-            return res.status(422).json({ msg: "Senha inválida!", opc: 2 });
-        }
-
-        try {
-            const secret = process.env.SECRET;
-            const token = jwt.sign({ id: user._id }, secret);
-            res.status(200).json({ token, opc: 1, msg: "Bem-vindo!" });
-
-        } catch (error) {
-            console.log('Erro no login:', error.message);
-            res.status(500).json({ msg: "Erro no login" });
-        }
-
+        await user.save();
+        res.status(200).json({ msg: 'Usuário cadastrado com sucesso!' });
     } catch (error) {
-        console.log("Erro ao fazer login:", error.message);
-        res.status(500).json({ msg: "Erro ao fazer login" });
+        res.status(500).json({ msg: 'Erro ao cadastrar usuário' });
+    }
+};
+
+// Login de usuário e geração do token
+const paginaLogin = async (req, res) => {
+    const { email, senha } = req.body;
+
+    if (!email || !senha) {
+        return res.status(422).json({ msg: 'Email e senha são obrigatórios!' });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+        return res.status(404).json({ msg: 'Usuário não cadastrado!' });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(senha, user.senha);
+    if (!isPasswordCorrect) {
+        return res.status(422).json({ msg: 'Senha inválida!' });
+    }
+
+    try {
+        const token = jwt.sign({ id: user._id }, SECRET, { expiresIn: '1h' });
+        res.cookie('tokenAuthorization', token, { httpOnly: true });
+        res.status(200).json({ msg: 'Login realizado com sucesso!', token });
+    } catch (error) {
+        res.status(500).json({ msg: 'Erro ao realizar login' });
+    }
+};
+
+// Middleware para verificar token
+const verIdUser = (req, res, next) => {
+    const token = req.cookies.tokenAuthorization || req.header('x-auth-token');
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token não fornecido' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, SECRET);
+        req.userId = decoded.id;
+        next();
+    } catch (error) {
+        res.status(401).json({ message: 'Token inválido' });
     }
 };
 
 module.exports = {
     cadastraUsuario,
-    paginaLogin
+    paginaLogin,
+    verIdUser,
 };
-
-module.exports={
-    cadastraUsuario
-    ,paginaLogin
-}

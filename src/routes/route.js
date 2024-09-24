@@ -13,6 +13,7 @@ const rotas = express.Router();
 rotas.get('/', home);
 rotas.get('/relatorio/cidade/:cidade', verIdUser, gerarRelatorio); // Rota protegida
 rotas.post('/cadastroPlaca', verIdUser, upload.single('placa'), cadastroPlaca); // Rota protegida
+rotas.get('/consulta/:placa', verIdUser, consultaPlaca); // Rota protegida
 rotas.post('/cadastro', userController.cadastraUsuario);
 rotas.post('/login', userController.paginaLogin);
 

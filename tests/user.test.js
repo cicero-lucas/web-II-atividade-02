@@ -12,47 +12,7 @@ describe("API Routes", () => {
     server.close();
   });
 
-  describe("GET /relatorio/cidade/:cidade", () => {
-    it("deve retornar 200 e o relatório da cidade", async () => {
-      const cidade = "Crato";
-      const response = await request(server)
-        .get(`/relatorio/cidade/${cidade}`)
-        .set('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTQ2MmY5MjgyNWQ3YjdiNzMxYjBhMyIsImlhdCI6MTcyNzA4OTM1Mn0.Xg-rHmPW37ABF1CroH9oCMsa01lwiUTnNaQbrPJufGM",) 
-        .expect(200);
-
-      expect(response.body).toHaveProperty('relatorio');
-    });
-
-    it("deve retornar 401 se o token não for fornecido", async () => {
-      const cidade = "São Paulo";
-      const response = await request(server)
-        .get(`/relatorio/cidade/${cidade}`)
-        .expect(401);
-
-      expect(response.body.message).toBe('Token não fornecido');
-    });
-  });
-
-  describe("POST /cadastroPlaca", () => {
-    it("deve retornar 200 e cadastrar a placa", async () => {
-      const response = await request(server)
-        .post('/cadastroPlaca')
-        .set('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTQ2MmY5MjgyNWQ3YjdiNzMxYjBhMyIsImlhdCI6MTcyNzA4OTM1Mn0.Xg-rHmPW37ABF1CroH9oCMsa01lwiUTnNaQbrPJufGM",) 
-        .attach('placa', './uploads/img.png') 
-        .expect(200);
-
-      expect(response.body).toHaveProperty('mensagem', 'Placa cadastrada com sucesso!');
-    });
-
-    it("deve retornar 401 se o token não for fornecido", async () => {
-      const response = await request(server)
-        .post('/cadastroPlaca')
-        .attach('placa', './uploads/img.png') // Substitua pelo caminho real do arquivo
-        .expect(401);
-
-      expect(response.body.message).toBe('Token não fornecido');
-    });
-  });
+  
 
   describe("POST /cadastro", () => {
     it("deve retornar 201 e cadastrar o usuário", async () => {

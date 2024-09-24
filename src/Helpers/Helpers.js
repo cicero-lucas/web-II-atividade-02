@@ -1,4 +1,4 @@
-require("dotenv").config()
+require("dotenv").config();
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 
@@ -7,8 +7,7 @@ const senha = process.env.SECRET;
 // Middleware para verificar o ID do usuário no cookie ou no cabeçalho
 const verIdUser = (req, res, next) => {
     // Obtém o token de autorização do cookie ou do cabeçalho
-
-    const token = req.cookies.tokenAutorization || req.header('x-auth-token');
+    const token = req.cookies.tokenAuthorization || req.header('Authorization');
 
     if (!token) {
         // Se não houver token, retorna um erro de não autorizado
@@ -22,7 +21,7 @@ const verIdUser = (req, res, next) => {
         // Associa o ID do usuário à requisição
         req.userId = decoded.id;
         next(); // Continua para a próxima função (rota)
-        
+
     } catch (error) {
         // Se houver erro na verificação, retorna um erro de token inválido
         console.error('Erro ao verificar o token:', error.message);
